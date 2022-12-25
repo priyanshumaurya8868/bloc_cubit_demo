@@ -21,23 +21,19 @@ class CounterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Counter')),
-      body: BlocListener<CounterCubit, CounterState>(
-          listener: ((context, state) {
-            if (state.wasIncremented == true) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text(".Incremented!!")));
-            } else if(state.wasIncremented == false){
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text("Drecremented!!")));
-            }
-          }),
-          child: Container(
-            child: BlocBuilder<CounterCubit, CounterState>(
-            builder: (context, state) =>
-              Center(child: Text('${state.counterValue}')),
-                  ),
-          ),
-        ),
+      body: BlocConsumer<CounterCubit, CounterState>(
+        listener: ((context, state) {
+          if (state.wasIncremented == true) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text(".Incremented!!")));
+          } else if (state.wasIncremented == false) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Drecremented!!")));
+          }
+        }),
+        builder: (context, state) =>
+            Center(child: Text('${state.counterValue}')),
+      ),
       floatingActionButton: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
